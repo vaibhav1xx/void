@@ -1,28 +1,40 @@
-def analyze(user_input: str):
-    text = user_input.lower()
+from app.intents.detector import detect_intent
+from app.planner.planner import create_plan
+from app.planner.executor import execute
 
-    if any(word in text for word in ["hi", "hello", "hey"]):
+
+def analyze(user_input: str):
+
+    intent = detect_intent(user_input)
+
+    plan = create_plan(
+        intent.name,
+        user_input
+    )
+
+    execution = execute(plan)
+
+    if intent.name == "greeting":
+
         return {
-            "intent": "greeting",
-            "plan": [],
-            "tool": None,
+            "intent": intent.name,
+            "tool": intent.tool,
+            "plan": execution,
             "response": "Hello Vaibhav. Systems Online."
         }
 
-    if "youtube" in text:
+    if intent.name == "open_youtube":
+
         return {
-            "intent": "open_youtube",
-            "plan": [
-                "Open browser",
-                "Navigate to YouTube"
-            ],
-            "tool": "browser",
-            "response": "Planning to open YouTube."
+            "intent": intent.name,
+            "tool": intent.tool,
+            "plan": execution,
+            "response": "Planning complete."
         }
 
     return {
-        "intent": "unknown",
-        "plan": [],
-        "tool": None,
-        "response": "I don't understand the request yet."
+        "intent": intent.name,
+        "tool": intent.tool,
+        "plan": execution,
+        "response": "Unknown request."
     }

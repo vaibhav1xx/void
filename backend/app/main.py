@@ -1,5 +1,7 @@
 #Importing FastAPI
 from fastapi import FastAPI
+#Importing the function 
+from app.startup import startup
 #Importing Version Information
 from app.version import (
     APP_NAME,
@@ -24,3 +26,8 @@ def root(): #/ is called the root endpoint
         "status": STATUS, 
         "message": "System Online. Awaiting Instructions."
      }
+#Startup execute 
+@app.on_event("startup")
+def on_startup():
+    startup()
+    

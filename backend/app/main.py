@@ -30,4 +30,11 @@ def root(): #/ is called the root endpoint
 @app.on_event("startup")
 def on_startup():
     startup()
-    
+#Health Showcase
+@app.get("/health")
+def health():
+    return {
+        "status": "healthy",
+        "project": APP_NAME,
+        "version": VERSION,
+    }

@@ -38,3 +38,7 @@ def health():
         "project": APP_NAME,
         "version": VERSION,
     }
+#connecting route/chat file 
+from app.routes.chat import router as chat_router
+
+app.include_router(chat_router)
